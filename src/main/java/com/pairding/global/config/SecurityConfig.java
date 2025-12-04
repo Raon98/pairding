@@ -1,7 +1,6 @@
-package com.oneRunning.global.config;
+package com.pairding.global.config;
 
 import com.oneRunning.global.security.CustomOAuth2SuccessHandler;
-import com.oneRunning.global.security.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +24,6 @@ import java.util.List;
 public class SecurityConfig {
 
     private final CustomOAuth2SuccessHandler successHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Value("${cors.allowed-origins}")
     private String[] allowedOrigins;
@@ -57,7 +55,6 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
-                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(successHandler))
                 .build();
 

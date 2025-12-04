@@ -1,4 +1,8 @@
+package com.pairding.global.security;
 
+import io.hypersistence.tsid.TSID;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TsidGenerator {
 
@@ -26,3 +30,4 @@ public class TsidGenerator {
     public static String nextString() {
         return TSID_FACTORY.generate().toString();
     }
+}

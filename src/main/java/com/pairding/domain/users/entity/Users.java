@@ -1,10 +1,12 @@
-package com.oneRunning.domain.users.entity;
+package com.pairding.domain.users.entity;
 
 import com.oneRunning.domain.users.enums.Gender;
 import com.oneRunning.domain.users.enums.OAuthProvider;
+import com.pairding.global.entity.BaseEntity;
+import com.pairding.global.security.TsidGenerator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 @Schema(description = "유저 테이블")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
-public class Users extends BaseEntity{
+public class Users extends BaseEntity {
 
     @Id
     @Schema(description = "유저 TSID")
@@ -59,8 +61,8 @@ public class Users extends BaseEntity{
     private LocalDateTime updatedAt;
 
     @Builder
-    public Users(){
-        this.id = TsidGenerator.nextId()
+    public Users(String name){
+        this.id = TsidGenerator.nextId();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.oneRunning.global.entity;
+package com.pairding.global.entity;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PostLoad;

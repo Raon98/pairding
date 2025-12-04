@@ -1,4 +1,4 @@
-package com.oneRunning.global.security;
+package com.pairding.global.security;
 
 
 import io.jsonwebtoken.Jwts;
