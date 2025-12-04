@@ -1,6 +1,6 @@
 package com.pairding.global.config;
 
-import com.oneRunning.global.security.CustomOAuth2SuccessHandler;
+import com.pairding.global.security.CustomOAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
