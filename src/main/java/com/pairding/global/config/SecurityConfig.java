@@ -49,12 +49,11 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**","/error","/h2-console/**").permitAll()
+                        .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**","/error","/h2-console/**","/auth/** ").permitAll()
                         .requestMatchers("/login","/oauth2/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth -> oauth
-                        .loginPage("/login")
                         .successHandler(successHandler))
                 .build();
 

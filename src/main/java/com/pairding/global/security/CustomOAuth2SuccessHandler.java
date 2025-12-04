@@ -1,39 +1,84 @@
 package com.pairding.global.security;
 
+import com.pairding.users.domain.UserConnection;
+import com.pairding.users.domain.Users;
+import com.pairding.users.repository.UserConnectionRepository;
+import com.pairding.users.repository.UsersRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
 public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-     private final JwtProvider jwtProvider;
+    private final OAuth2AuthorizedClientService clientService;
+    private final UsersRepository usersRepository;
+    private final UserConnectionRepository connectionRepository;
+    private final TsidGenerator tsidGenerator;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        Authentication authentication) throws java.io.IOException {
+                                        Authentication authentication) throws IOException {
 
-        DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
-        Object userId = oauthUser.getAttribute("id");
+        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
 
-        // 클라이언트 URL
-        String clientUrl = request.getHeader("X-Client-Url");
-        if (clientUrl == null || clientUrl.isEmpty()) {
-            clientUrl = "http://localhost:3000";
-        }
+        OAuth2AuthorizedClient client =
+                clientService.loadAuthorizedClient(
+                        oauthToken.getAuthorizedClientRegistrationId(),
+                        oauthToken.getName());
 
-        if (userId == null) {
-            response.sendRedirect(clientUrl + "/signup");
+        String accessToken = client.getAccessToken().getTokenValue();
+
+        OAuth2User oAuth2User = oauthToken.getPrincipal();
+
+        String provider = oauthToken.getAuthorizedClientRegistrationId();
+        Long providerUserId = Long.valueOf(oAuth2User.getAttribute("id").toString());
+        String username = oAuth2User.getAttribute("login");
+        String avatarUrl = oAuth2User.getAttribute("avatar_url");
+        String email = oAuth2User.getAttribute("email");
+
+        Users user = usersRepository.findByEmail(email)
+                .orElseGet(() -> usersRepository.save(
+                        Users.builder()
+                                .email(email)
+                                .name(username)
+                                .build()
+                ));
+
+        boolean alreadyConnected =
+                connectionRepository.existsByUserIdAndProvider(user.getId(), provider);
+
+        if (!alreadyConnected) {
+            connectionRepository.save(
+                    UserConnection.builder()
+                            .userId(user.getId())
+                            .provider(provider)
+                            .providerUserId(providerUserId)
+                            .username(username)
+                            .avatarUrl(avatarUrl)
+                            .encryptedAccessToken(accessToken)
+                            .build()
+            );
         } else {
-            String token = jwtProvider.generateToken(authentication);
-            response.addHeader("Authorization", "Bearer " + token);
-            response.sendRedirect(clientUrl + "/dashboard");
+            connectionRepository.findByUserIdAndProvider(user.getId(), provider)
+                    .ifPresent(con -> {
+                        con.updateAccessToken(accessToken);
+                        connectionRepository.save(con);
+                    });
         }
+
+        response.sendRedirect("/dashboard");
     }
 }
