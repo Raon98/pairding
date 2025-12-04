@@ -1,0 +1,33 @@
+package com.pairding.scm.controller.dto;
+
+import com.pairding.scm.service.dto.RepositoryInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+@Schema(description = "저장소 정보 응답 DTO")
+public class RepositoryInfoResponse {
+
+    @Schema(description = "레포 고유 ID", example = "123456")
+    private Long id;
+
+    @Schema(description = "레포 이름", example = "my-project")
+    private String name;
+
+    @Schema(description = "풀네임 (owner/repo)", example = "sungcheol1998/my-project")
+    private String fullName;
+
+    @Schema(description = "비공개 여부", example = "false")
+    private boolean isPrivate;
+
+    public static RepositoryInfoResponse from(RepositoryInfo info) {
+        return new RepositoryInfoResponse(
+                info.getId(),
+                info.getName(),
+                info.getFullName(),
+                info.isPrivate()
+        );
+    }
+}

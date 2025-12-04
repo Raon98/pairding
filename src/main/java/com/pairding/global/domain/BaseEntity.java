@@ -1,4 +1,4 @@
-package com.pairding.global.entity;
+package com.pairding.global.domain;
 
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PostLoad;

@@ -1,6 +1,6 @@
 package com.pairding.users.domain;
 
-import com.pairding.global.entity.BaseEntity;
+import com.pairding.global.domain.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +11,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user_connections")
+@Table(
+        name = "user_connections",
+        indexes = {
+                @Index(name = "idx_user_provider", columnList = "userId, provider"),
+                @Index(name = "idx_provider_userId", columnList = "providerUserId"),
+                @Index(name = "idx_provider", columnList = "provider")
+        }
+)
 @Schema(description = "사용자 OAuth Provider 연결 정보 테이블")
 public class UserConnection extends BaseEntity {
 

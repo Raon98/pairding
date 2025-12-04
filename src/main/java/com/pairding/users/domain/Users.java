@@ -1,7 +1,7 @@
 package com.pairding.users.domain;
 
 
-import com.pairding.global.entity.BaseEntity;
+import com.pairding.global.domain.BaseEntity;
 import com.pairding.global.security.TsidGenerator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;

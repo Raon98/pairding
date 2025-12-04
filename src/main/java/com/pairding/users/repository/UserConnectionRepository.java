@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserConnectionRepository extends JpaRepository<UserConnection, Long> {
 
-    List<UserConnection> findByUserId(Long userId);
+    Optional<List<UserConnection>> findByUserId(Long userId);
 
     Optional<UserConnection> findByUserIdAndProvider(Long userId, String provider);
 
