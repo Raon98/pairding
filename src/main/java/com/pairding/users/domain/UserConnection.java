@@ -34,7 +34,7 @@ public class UserConnection extends BaseEntity {
     @Schema(description = "OAuth Provider(github, gitlab, bitbucket 등)")
     private String provider;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     @Schema(description = "Provider 내 유저 ID(GitHub id, GitLab id 등)")
     private Long providerUserId;
 

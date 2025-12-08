@@ -1,6 +1,5 @@
 package com.pairding.global.config;
 
-import com.pairding.global.security.CustomOAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.pairding.global.core.jwt.JwtAuthenticationFilter;
+import com.pairding.global.core.security.CustomOAuth2SuccessHandler;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final CustomOAuth2SuccessHandler successHandler;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Value("${cors.allowed-origins}")
     private String[] allowedOrigins;
@@ -53,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/login","/oauth2/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauth -> oauth
                         .successHandler(successHandler))
                 .build();

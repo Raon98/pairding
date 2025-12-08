@@ -1,4 +1,4 @@
-package com.pairding.global.security;
+package com.pairding.global.core.tsid;
 
 import io.hypersistence.tsid.TSID;
 import org.springframework.stereotype.Component;

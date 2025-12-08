@@ -1,8 +1,9 @@
 package com.pairding.users.domain;
 
-
+import com.pairding.global.core.tsid.TsidGenerator;
 import com.pairding.global.domain.BaseEntity;
-import com.pairding.global.security.TsidGenerator;
+import com.pairding.users.enums.Role;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,11 +27,31 @@ public class Users extends BaseEntity {
     @Schema(description = "사용자 표시 이름")
     private String name;
 
+    @Schema(description = "사용자 권한 USER, ADMIN")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    
+    @Schema(description = "refresh 토큰")
+    private String refreshToken;
+    
     @Builder
     public Users(String email, String name) {
         this.id = TsidGenerator.nextId();
         this.email = email;
         this.name = name;
+        this.role = Role.USER;
+    }
+    
+    @Builder
+    public Users(String email, String name,Role role) {
+        this.id = TsidGenerator.nextId();
+        this.email = email;
+        this.name = name;
+        this.role = role;
+    }
+
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
     }
 
 }

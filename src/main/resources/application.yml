@@ -3,7 +3,7 @@ spring:
     name: pairding
 
   datasource:
-    url: jdbc:h2:mem:onRunning;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:pairding;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -33,7 +33,8 @@ spring:
               - read:user
               - user:email
               - repo
-            redirect-uri: "{baseUrl}/login/oauth2/code/github"
+            # redirect-uri: "{baseUrl}/login/oauth2/code/github"
+            redirect-uri: "https://turbo-telegram-9gp454rv6w5hp654-8080.app.github.dev/login/oauth2/code/github"
             client-name: GitHub
 
 cors:
@@ -41,3 +42,6 @@ cors:
   allowed-origins: "http://localhost:3000"
   allowed-methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS"
   allowed-headers: "Authorization,Content-Type,Origin"
+
+jwt:
+  secret: "VlwEyVlPKl54t484gbR2e7dNA7N6bH7v55jB7v55jB="
