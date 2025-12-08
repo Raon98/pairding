@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,6 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
     private final OAuth2AuthorizedClientService clientService;
     private final UsersRepository usersRepository;
     private final UserConnectionRepository connectionRepository;
-    private final TsidGenerator tsidGenerator;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
