@@ -10,13 +10,16 @@ import lombok.Getter;
 @Schema(description = "저장소 정보 응답 DTO")
 public class RepositoryInfoResponse {
 
-    @Schema(description = "레포 고유 ID", example = "123456")
+    @Schema(description = "저장소 고유 ID", example = "789365156101822874")
     private Long id;
 
-    @Schema(description = "레포 이름", example = "my-project")
+    @Schema(description = "소유자/조직(owner or namespace)", example = "oct")
+    private String owner;
+
+    @Schema(description = "저장소 이름", example = "my-project")
     private String name;
 
-    @Schema(description = "풀네임 (owner/repo)", example = "sungcheol1998/my-project")
+    @Schema(description = "전체이름 (owner/repo)", example = "sungcheol1998/my-project")
     private String fullName;
 
     @Schema(description = "비공개 여부", example = "false")
@@ -25,6 +28,7 @@ public class RepositoryInfoResponse {
     public static RepositoryInfoResponse from(RepositoryInfo info) {
         return new RepositoryInfoResponse(
                 info.getId(),
+                info.getOwner(),
                 info.getName(),
                 info.getFullName(),
                 info.isPrivate()

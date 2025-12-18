@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/scm")
 @RequiredArgsConstructor
-@Tag(name = "SCM Repository API", description = "GitHub/GitLab 저장소 조회 API")
+@Tag(name = "사용자 저장소 API", description = "GitHub/GitLab 저장소 조회 API")
 public class RepositoryController {
 
     private final RepositoryService repositoryService;
@@ -29,7 +29,7 @@ public class RepositoryController {
             @Parameter(description = "SCM 제공자 (github / gitlab)", example = "github")
             @PathVariable String provider,
 
-            @Parameter(description = "사용자 ID(TSID)", example = "1")
+            @Parameter(description = "사용자 ID(TSID)", example = "789365156101822874")
             @RequestParam Long userId
     ) {
         return repositoryService.getRepositories(provider, userId)

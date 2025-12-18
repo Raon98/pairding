@@ -9,6 +9,8 @@ import com.pairding.scm.service.dto.ChangedFile;
 import com.pairding.scm.service.dto.RepositoryInfo;
 import com.pairding.users.repository.UserConnectionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class GithubAdapter implements SourceControlService {
     private final GithubApiClient githubApiClient;
     private final UserConnectionRepository connectionRepository;
@@ -28,7 +31,7 @@ public class GithubAdapter implements SourceControlService {
         GithubRepoResponse[] data = githubApiClient.get("/user/repos", token, GithubRepoResponse[].class);
 
         return Arrays.stream(data)
-                .map(r -> new RepositoryInfo(r.getId(), r.getName(), r.getFullName(), r.isPrivate()))
+                .map(r -> new RepositoryInfo(r.getId(),r.getOwner().getLogin(), r.getName(), r.getFullName(), r.isPrivate()))
                 .toList();
     }
 
