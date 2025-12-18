@@ -9,7 +9,7 @@ import org.springframework.data.domain.Persistable;
 
 @Getter
 @MappedSuperclass
-public abstract class BaseEntity implements Persistable<Long> {
+public abstract class BaseEntity extends BaseTimeEntity implements Persistable<Long> {
 
     @Transient
     private boolean isNew = true;
