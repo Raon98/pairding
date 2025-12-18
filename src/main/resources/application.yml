@@ -41,6 +41,10 @@ spring:
             #redirect-uri: "https://turbo-telegram-9gp454rv6w5hp654-8080.app.github.dev/login/oauth2/code/github"
             redirect-uri: "http://127.0.0.1:8080/login/oauth2/code/github"
             client-name: GitHub
+logging:
+  level:
+    root: info
+    com.pairding: debug
 
 cors:
   allow-credentials: true
