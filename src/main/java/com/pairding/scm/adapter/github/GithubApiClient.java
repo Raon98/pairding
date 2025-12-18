@@ -7,10 +7,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 public class GithubApiClient {
-    private final WebClient gitlabWebClient;
+    private final WebClient githubWebClient;
 
     public <T> T get(String url, String token, Class<T> clazz) {
-        return gitlabWebClient.get()
+        return githubWebClient.get()
                 .uri(url)
                 .headers(h -> h.setBearerAuth(token))
                 .retrieve()
@@ -19,7 +19,7 @@ public class GithubApiClient {
     }
 
     public <T> T post(String url, String token, Object body, Class<T> clazz) {
-        return gitlabWebClient.post()
+        return githubWebClient.post()
                 .uri(url)
                 .headers(h -> h.setBearerAuth(token))
                 .bodyValue(body)
