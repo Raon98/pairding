@@ -1,12 +1,7 @@
 package com.pairding.global.core.security;
-import com.pairding.global.core.jwt.JwtTokenProvider;
-import com.pairding.users.domain.UserConnection;
-import com.pairding.users.domain.Users;
-import com.pairding.users.repository.UserConnectionRepository;
-import com.pairding.users.repository.UsersRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.util.Arrays;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -14,16 +9,31 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler; // 
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder; 
-import java.io.IOException;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.pairding.global.core.jwt.JwtTokenProvider;
+import com.pairding.scm.adapter.github.GithubApiClient;
+import com.pairding.scm.adapter.github.dto.GithubEmailResponse;
+import com.pairding.users.domain.UserConnection;
+import com.pairding.users.domain.Users;
+import com.pairding.users.repository.UserConnectionRepository;
+import com.pairding.users.repository.UsersRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final OAuth2AuthorizedClientService clientService;
     private final UsersRepository usersRepository;
     private final UserConnectionRepository connectionRepository;
-    private final JwtTokenProvider jwtTokenProvider; // 
+    private final JwtTokenProvider jwtTokenProvider; 
+    private final GithubApiClient githubApiClient;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
@@ -42,8 +52,8 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         Long providerUserId = Long.valueOf(String.valueOf(oAuth2User.getAttributes().get("id")));
         String username = (String) oAuth2User.getAttributes().get("login");
         String avatarUrl = (String) oAuth2User.getAttributes().get("avatar_url");
-        String email = (String) oAuth2User.getAttributes().get("email");
-        
+        String email = (String) getGithubEmail(githubAccessToken);
+      
         // 3. 우리 서비스 회원 가입 또는 조회 (Upsert)
         Users user = usersRepository.findByEmail(email)
                 .orElseGet(() -> usersRepository.save(
@@ -91,4 +101,16 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .build().toUriString();
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
+
+    public String getGithubEmail(String token) {
+        GithubEmailResponse[] emails = githubApiClient.get("/user/emails", token, GithubEmailResponse[].class);
+
+        return Arrays.stream(emails)
+                .filter(GithubEmailResponse::isPrimary)
+                .filter(GithubEmailResponse::isVerified)
+                .map(GithubEmailResponse::getEmail)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("사용 가능한 인증된 이메일이 없습니다."));
+    }
+
 }
