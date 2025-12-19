@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
         }
 )
 @Schema(description = "사용자가 연결한 SCM 저장소 정보")
-public class RepositoryEntity extends BaseTimeEntity{
+public class ConnectedRepositoryEntity extends BaseTimeEntity{
 
     @Id
     @Schema(description = "내부 저장소 ID(TSID 또는 Long)", example = "1000000000001")
@@ -67,7 +67,7 @@ public class RepositoryEntity extends BaseTimeEntity{
     private String defaultBranch;
 
     @Builder
-    public RepositoryEntity(Long id,
+    public ConnectedRepositoryEntity(Long id,
                                Long userId,
                                String provider,
                                Long providerRepoId,
