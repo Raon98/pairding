@@ -1,12 +1,12 @@
-package com.pairding.scm.adapter.github;
+package com.pairding.scm.infrastructure.scmClient.github;
 
-import com.pairding.scm.adapter.github.dto.GithubCommitResponse;
-import com.pairding.scm.adapter.github.dto.GithubContentResponse;
-import com.pairding.scm.adapter.github.dto.GithubRefResponse;
-import com.pairding.scm.adapter.github.dto.GithubRepoResponse;
-import com.pairding.scm.port.SourceControlService;
-import com.pairding.scm.service.dto.ChangedFile;
-import com.pairding.scm.service.dto.RepositoryInfo;
+import com.pairding.scm.application.dto.ChangedFile;
+import com.pairding.scm.application.dto.RepositoryInfo;
+import com.pairding.scm.application.port.SourceControlService;
+import com.pairding.scm.infrastructure.scmClient.github.dto.GithubCommitResponse;
+import com.pairding.scm.infrastructure.scmClient.github.dto.GithubContentResponse;
+import com.pairding.scm.infrastructure.scmClient.github.dto.GithubRefResponse;
+import com.pairding.scm.infrastructure.scmClient.github.dto.GithubRepoResponse;
 import com.pairding.users.repository.UserConnectionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,7 @@
-package com.pairding.scm.controller.dto;
+package com.pairding.scm.api.dto;
 
-import com.pairding.scm.service.dto.RepositoryInfo;
+import com.pairding.scm.application.dto.RepositoryInfo;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

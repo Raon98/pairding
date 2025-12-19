@@ -1,8 +1,9 @@
-package com.pairding.scm.adapter.gitlab;
+package com.pairding.scm.infrastructure.scmClient.gitlab;
 
-import com.pairding.scm.port.SourceControlService;
-import com.pairding.scm.service.dto.ChangedFile;
-import com.pairding.scm.service.dto.RepositoryInfo;
+import com.pairding.scm.application.dto.ChangedFile;
+import com.pairding.scm.application.dto.RepositoryInfo;
+import com.pairding.scm.application.port.SourceControlService;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;

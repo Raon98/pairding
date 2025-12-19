@@ -1,7 +1,8 @@
-package com.pairding.scm.controller;
+package com.pairding.scm.api;
 
-import com.pairding.scm.controller.dto.RepositoryInfoResponse;
-import com.pairding.scm.service.RepositoryService;
+import com.pairding.scm.api.dto.RepositoryInfoResponse;
+import com.pairding.scm.application.ConnectedRepositoryUseCase;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,9 +16,9 @@ import java.util.List;
 @RequestMapping("/api/scm")
 @RequiredArgsConstructor
 @Tag(name = "사용자 저장소 API", description = "GitHub/GitLab 저장소 조회 API")
-public class RepositoryController {
+public class ScmRepositoryController {
 
-    private final RepositoryService repositoryService;
+    private final ConnectedRepositoryUseCase repositoryService;
 
     @Operation(
             summary = "사용자 저장소 목록 조회",

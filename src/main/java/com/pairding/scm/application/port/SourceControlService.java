@@ -1,9 +1,9 @@
-package com.pairding.scm.port;
-
-import com.pairding.scm.service.dto.ChangedFile;
-import com.pairding.scm.service.dto.RepositoryInfo;
+package com.pairding.scm.application.port;
 
 import java.util.List;
+
+import com.pairding.scm.application.dto.ChangedFile;
+import com.pairding.scm.application.dto.RepositoryInfo;
 
 public interface SourceControlService {
     /*원격저장소에서 repo 가져오기*/
