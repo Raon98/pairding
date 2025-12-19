@@ -5,6 +5,7 @@ import com.pairding.global.domain.BaseTimeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -65,6 +66,7 @@ public class RepositoryEntity extends BaseTimeEntity{
     @Schema(description = "기본 브랜치", example = "main")
     private String defaultBranch;
 
+    @Builder
     public RepositoryEntity(Long id,
                                Long userId,
                                String provider,
