@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.pairding.global.core.jwt.JwtTokenProvider;
-import com.pairding.scm.adapter.github.GithubApiClient;
-import com.pairding.scm.adapter.github.dto.GithubEmailResponse;
+import com.pairding.scm.infrastructure.scmClient.github.GithubApiClient;
+import com.pairding.scm.infrastructure.scmClient.github.dto.GithubEmailResponse;
 import com.pairding.users.domain.UserConnection;
 import com.pairding.users.domain.Users;
 import com.pairding.users.repository.UserConnectionRepository;

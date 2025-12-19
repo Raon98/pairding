@@ -1,4 +1,4 @@
-package com.pairding.scm.adapter.github;
+package com.pairding.scm.infrastructure.scmClient.github;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

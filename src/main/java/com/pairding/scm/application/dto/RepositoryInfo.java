@@ -1,4 +1,4 @@
-package com.pairding.scm.service.dto;
+package com.pairding.scm.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

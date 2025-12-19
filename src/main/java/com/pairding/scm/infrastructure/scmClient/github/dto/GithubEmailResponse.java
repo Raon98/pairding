@@ -1,4 +1,4 @@
-package com.pairding.scm.adapter.github.dto;
+package com.pairding.scm.infrastructure.scmClient.github.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

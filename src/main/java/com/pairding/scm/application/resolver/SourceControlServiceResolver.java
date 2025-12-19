@@ -1,18 +1,19 @@
-package com.pairding.scm.service;
+package com.pairding.scm.application.resolver;
 
-import com.pairding.scm.adapter.github.GithubAdapter;
-import com.pairding.scm.adapter.gitlab.GitlabAdapter;
-import com.pairding.scm.port.SourceControlService;
+import com.pairding.scm.application.port.SourceControlService;
+import com.pairding.scm.infrastructure.scmClient.github.GithubAdapter;
+import com.pairding.scm.infrastructure.scmClient.gitlab.GitlabAdapter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SourceControlServiceFactory {
+public class SourceControlServiceResolver {
     private final GithubAdapter githubAdapter;
     private final GitlabAdapter gitlabAdapter;
 
-    public SourceControlService getService(String provider) {
+    public SourceControlService resolve(String provider) {
 
         if (provider.equalsIgnoreCase("github")) {
             return githubAdapter;
