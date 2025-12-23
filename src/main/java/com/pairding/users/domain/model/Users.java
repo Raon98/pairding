@@ -16,22 +16,17 @@ import lombok.*;
 public class Users extends BaseEntity {
 
     @Id
-    @Schema(description = "유저 TSID")
     private Long id;
 
     @Column(length = 100)
-    @Schema(description = "사용자 이메일(있을 경우)")
     private String email;
 
     @Column(length = 100)
-    @Schema(description = "사용자 표시 이름")
     private String name;
 
-    @Schema(description = "사용자 권한 USER, ADMIN")
     @Enumerated(EnumType.STRING)
     private Role role;
     
-    @Schema(description = "refresh 토큰")
     private String refreshToken;
     
     @Builder
