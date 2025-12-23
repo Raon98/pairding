@@ -1,8 +1,8 @@
 package com.pairding.scm.application.resolver;
 
 import com.pairding.scm.application.port.SourceControlService;
-import com.pairding.scm.infrastructure.scmClient.github.GithubAdapter;
-import com.pairding.scm.infrastructure.scmClient.gitlab.GitlabAdapter;
+import com.pairding.scm.infrastructure.cllient.github.GithubAdapter;
+import com.pairding.scm.infrastructure.cllient.gitlab.GitlabAdapter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

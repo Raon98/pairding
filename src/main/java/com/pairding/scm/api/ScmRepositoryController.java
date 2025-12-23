@@ -1,7 +1,7 @@
 package com.pairding.scm.api;
 
 import com.pairding.scm.api.dto.RepositoryInfoResponse;
-import com.pairding.scm.application.ConnectedRepositoryUseCase;
+import com.pairding.scm.application.port.in.ConnectedRepositoryUseCase;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
