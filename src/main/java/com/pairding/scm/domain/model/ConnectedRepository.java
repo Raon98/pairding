@@ -1,6 +1,7 @@
 package com.pairding.scm.domain.model;
 
 import com.pairding.global.domain.BaseTimeEntity;
+import com.pairding.scm.domain.enums.ScmProvider;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -31,45 +32,39 @@ import lombok.NoArgsConstructor;
 public class ConnectedRepository extends BaseTimeEntity{
 
     @Id
-    @Schema(description = "내부 저장소 ID(TSID 또는 Long)", example = "1000000000001")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    @Schema(description = "서비스 사용자 ID", example = "1000000000000")
     private Long userId;
 
     @Column(nullable = false, length = 20)
-    @Schema(description = "SCM Provider", example = "github", allowableValues = {"github", "gitlab"})
-    private String provider;
+    @Enumerated(EnumType.STRING)
+    private ScmProvider provider;
 
     @Column(name = "provider_repo_id", nullable = false)
-    @Schema(description = "Provider 내 저장소 ID(GitHub/GitLab)", example = "654321987")
     private Long providerRepoId;
 
     @Column(nullable = false, length = 200)
-    @Schema(description = "저장소 소유자(owner)", example = "sungcheol")
     private String owner;
 
     @Column(nullable = false, length = 200)
-    @Schema(description = "저장소 이름", example = "pairding-backend")
     private String name;
 
     @Column(name = "full_name", nullable = false, length = 500)
-    @Schema(description = "저장소 전체 이름(owner/name)", example = "sungcheol/pairding-backend")
     private String fullName;
 
     @Column(name = "is_private", nullable = false)
-    @Schema(description = "비공개 저장소 여부", example = "true")
     private boolean isPrivate;
 
     @Column(name = "default_branch", length = 100)
-    @Schema(description = "기본 브랜치", example = "main")
     private String defaultBranch;
+
 
     @Builder
     public ConnectedRepository(Long id,
                                Long userId,
-                               String provider,
+                               ScmProvider provider,
                                Long providerRepoId,
                                String owner,
                                String name,
