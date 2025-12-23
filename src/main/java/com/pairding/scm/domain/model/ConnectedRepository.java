@@ -1,89 +1,122 @@
 package com.pairding.scm.domain.model;
-
 import com.pairding.global.domain.BaseTimeEntity;
-
+import com.pairding.scm.domain.enums.ConnectedRepoStatus;
+import com.pairding.scm.domain.enums.ScmProvider;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-        name = "connected_repositories",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_conn_repo_user_provider_full",
-                        columnNames = {"user_id", "provider", "full_name"}
-                )
-        },
-        indexes = {
-                @Index(name = "idx_conn_repo_user", columnList = "user_id"),
-                @Index(name = "idx_conn_repo_user_provider", columnList = "user_id, provider"),
-                @Index(name = "idx_conn_repo_full_name", columnList = "full_name"),
-                @Index(name = "idx_conn_repo_user_created", columnList = "user_id, created_at")
-        }
+    name = "connected_repositories",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "uk_conn_repo_user_provider_repoid",
+            columnNames = {"user_id", "provider", "provider_repo_id"}
+        )
+    },
+    indexes = {
+        @Index(name = "idx_conn_repo_user", columnList = "user_id"),
+        @Index(name = "idx_conn_repo_user_provider", columnList = "user_id, provider"),
+        @Index(name = "idx_conn_repo_user_status", columnList = "user_id, status"),
+        @Index(name = "idx_conn_repo_user_created", columnList = "user_id, created_at")
+    }
 )
 @Schema(description = "사용자가 연결한 SCM 저장소 정보")
-public class ConnectedRepository extends BaseTimeEntity{
+public class ConnectedRepository extends BaseTimeEntity {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Id
-    @Schema(description = "내부 저장소 ID(TSID 또는 Long)", example = "1000000000001")
-    private Long id;
+  @Column(name = "user_id", nullable = false)
+  private Long userId; 
+  
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 20)
+  private ScmProvider provider;
 
-    @Column(name = "user_id", nullable = false)
-    @Schema(description = "서비스 사용자 ID", example = "1000000000000")
-    private Long userId;
+  @Column(name = "provider_repo_id", nullable = false, length = 64)
+  private String providerRepoId;
 
-    @Column(nullable = false, length = 20)
-    @Schema(description = "SCM Provider", example = "github", allowableValues = {"github", "gitlab"})
-    private String provider;
+  @Column(nullable = false, length = 200)
+  private String owner;
 
-    @Column(name = "provider_repo_id", nullable = false)
-    @Schema(description = "Provider 내 저장소 ID(GitHub/GitLab)", example = "654321987")
-    private Long providerRepoId;
+  @Column(nullable = false, length = 200)
+  private String name;
 
-    @Column(nullable = false, length = 200)
-    @Schema(description = "저장소 소유자(owner)", example = "sungcheol")
-    private String owner;
+  @Column(name = "full_name", nullable = false, length = 500)
+  private String fullName; 
 
-    @Column(nullable = false, length = 200)
-    @Schema(description = "저장소 이름", example = "pairding-backend")
-    private String name;
+  @Column(name = "is_private", nullable = false)
+  private boolean isPrivate;
 
-    @Column(name = "full_name", nullable = false, length = 500)
-    @Schema(description = "저장소 전체 이름(owner/name)", example = "sungcheol/pairding-backend")
-    private String fullName;
+  @Column(name = "default_branch", length = 100)
+  private String defaultBranch;
 
-    @Column(name = "is_private", nullable = false)
-    @Schema(description = "비공개 저장소 여부", example = "true")
-    private boolean isPrivate;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 20)
+  private ConnectedRepoStatus status;
 
-    @Column(name = "default_branch", length = 100)
-    @Schema(description = "기본 브랜치", example = "main")
-    private String defaultBranch;
+  @Builder
+  private ConnectedRepository(Long id,
+                              Long userId,
+                              ScmProvider provider,
+                              String providerRepoId,
+                              String owner,
+                              String name,
+                              String fullName,
+                              boolean isPrivate,
+                              String defaultBranch,
+                              ConnectedRepoStatus status) {
+    this.id = id;   this.userId = userId;
+    this.provider = provider;
+    this.providerRepoId = providerRepoId;
+    this.owner = owner;
+    this.name = name;
+    this.fullName = fullName;
+    this.isPrivate = isPrivate;
+    this.defaultBranch = defaultBranch;
+    this.status = status;
+  }
 
-    @Builder
-    public ConnectedRepository(Long id,
-                               Long userId,
-                               String provider,
-                               Long providerRepoId,
-                               String owner,
-                               String name,
-                               String fullName,
-                               boolean isPrivate,
-                               String defaultBranch) {
-        this.id = id;
-        this.userId = userId;
-        this.provider = provider;
-        this.providerRepoId = providerRepoId;
-        this.owner = owner;
-        this.name = name;
-        this.fullName = fullName;
-        this.isPrivate = isPrivate;
-        this.defaultBranch = defaultBranch;
-    }
+  public static ConnectedRepository draft(Long userId,
+                                          ScmProvider provider,
+                                          String providerRepoId,
+                                          String owner,
+                                          String name,
+                                          String fullName,
+                                          boolean isPrivate,
+                                          String defaultBranch) {
+    return ConnectedRepository.builder()
+        .userId(userId)
+        .provider(provider)
+        .providerRepoId(providerRepoId)
+        .owner(owner)
+        .name(name)
+        .fullName(fullName)
+        .isPrivate(isPrivate)
+        .defaultBranch(defaultBranch)
+        .status(ConnectedRepoStatus.DRAFT)
+        .build();
+  }
+
+  public void updateDisplayInfo(String owner,
+                                String name,
+                                String fullName,
+                                boolean isPrivate,
+                                String defaultBranch) {
+    this.owner = owner;
+    this.name = name;
+    this.fullName = fullName;
+    this.isPrivate = isPrivate;
+    this.defaultBranch = defaultBranch;
+  }
+
+  public void activate() {
+    this.status = ConnectedRepoStatus.ACTIVE;
+  }
 }

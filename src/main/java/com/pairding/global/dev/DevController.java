@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pairding.global.core.jwt.JwtTokenProvider;
+import com.pairding.users.infrastructure.security.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
