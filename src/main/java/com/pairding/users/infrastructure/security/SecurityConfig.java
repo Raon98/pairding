@@ -1,4 +1,4 @@
-package com.pairding.global.config;
+package com.pairding.users.infrastructure.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.pairding.users.infrastructure.security.jwt.JwtAuthenticationFilter;
-
+import com.pairding.users.infrastructure.security.oauth2.CustomOAuth2SuccessHandler;
 
 import java.util.List;
 
