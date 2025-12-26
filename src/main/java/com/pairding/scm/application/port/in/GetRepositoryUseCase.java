@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ConnectedRepositoryUseCase {
+public class GetRepositoryUseCase {
 
     private final SourceControlServiceResolver resolver;
 

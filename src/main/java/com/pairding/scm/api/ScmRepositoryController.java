@@ -1,7 +1,7 @@
 package com.pairding.scm.api;
 
 import com.pairding.scm.api.dto.RepositoryInfoResponse;
-import com.pairding.scm.application.port.in.ConnectedRepositoryUseCase;
+import com.pairding.scm.application.port.in.GetRepositoryUseCase;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,7 +18,7 @@ import java.util.List;
 @Tag(name = "사용자 저장소 API", description = "GitHub/GitLab 저장소 조회 API")
 public class ScmRepositoryController {
 
-    private final ConnectedRepositoryUseCase repositoryService;
+    private final GetRepositoryUseCase repositoryService;
 
     @Operation(
             summary = "사용자 저장소 목록 조회",

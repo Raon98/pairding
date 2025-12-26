@@ -119,4 +119,5 @@ public class ConnectedRepository extends BaseTimeEntity {
   public void activate() {
     this.status = ConnectedRepoStatus.ACTIVE;
   }
+
 }
