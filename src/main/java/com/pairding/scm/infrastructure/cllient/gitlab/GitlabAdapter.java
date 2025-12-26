@@ -1,7 +1,7 @@
 package com.pairding.scm.infrastructure.cllient.gitlab;
 
 import com.pairding.scm.application.dto.ChangedFile;
-import com.pairding.scm.application.dto.RepositoryInfo;
+import com.pairding.scm.application.dto.RepositoryInfoResult;
 import com.pairding.scm.application.port.out.SourceControlPort;
 import com.pairding.scm.domain.enums.ScmProvider;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class GitlabAdapter implements SourceControlPort {
 
     @Override
-    public List<RepositoryInfo> getRepositories(Long userId) {
+    public List<RepositoryInfoResult> getRepositories(Long userId) {
         return List.of();
     }
 

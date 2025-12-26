@@ -3,7 +3,7 @@ package com.pairding.scm.application.port.out;
 import java.util.List;
 
 import com.pairding.scm.application.dto.ChangedFile;
-import com.pairding.scm.application.dto.RepositoryInfo;
+import com.pairding.scm.application.dto.RepositoryInfoResult;
 import com.pairding.scm.domain.enums.ScmProvider;
 
 public interface SourceControlPort {
@@ -23,7 +23,7 @@ public interface SourceControlPort {
         String providerWebhookId
     ){}
     
-    List<RepositoryInfo> getRepositories(Long userId);
+    List<RepositoryInfoResult> getRepositories(Long userId);
 
     void createBranch(Long userId, String owner, String repo, String branchName);
 
