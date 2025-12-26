@@ -5,7 +5,7 @@ import java.util.List;
 import com.pairding.scm.application.dto.ChangedFile;
 import com.pairding.scm.application.dto.RepositoryInfo;
 
-public interface SourceControlService {
+public interface SourceControlPort {
     /*원격저장소에서 repo 가져오기*/
     List<RepositoryInfo> getRepositories(Long userId);
 

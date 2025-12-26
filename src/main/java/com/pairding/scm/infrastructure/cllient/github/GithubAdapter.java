@@ -2,7 +2,7 @@ package com.pairding.scm.infrastructure.cllient.github;
 
 import com.pairding.scm.application.dto.ChangedFile;
 import com.pairding.scm.application.dto.RepositoryInfo;
-import com.pairding.scm.application.port.out.SourceControlService;
+import com.pairding.scm.application.port.out.SourceControlPort;
 import com.pairding.scm.infrastructure.cllient.github.dto.GithubCommitResponse;
 import com.pairding.scm.infrastructure.cllient.github.dto.GithubContentResponse;
 import com.pairding.scm.infrastructure.cllient.github.dto.GithubRefResponse;
@@ -22,7 +22,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class GithubAdapter implements SourceControlService {
+public class GithubAdapter implements SourceControlPort {
     private final GithubApiClient githubApiClient;
     private final UserConnectionRepository connectionRepository;
 

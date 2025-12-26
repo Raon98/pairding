@@ -1,6 +1,6 @@
 package com.pairding.scm.application.resolver;
 
-import com.pairding.scm.application.port.out.SourceControlService;
+import com.pairding.scm.application.port.out.SourceControlPort;
 import com.pairding.scm.infrastructure.cllient.github.GithubAdapter;
 import com.pairding.scm.infrastructure.cllient.gitlab.GitlabAdapter;
 
@@ -13,7 +13,7 @@ public class SourceControlServiceResolver {
     private final GithubAdapter githubAdapter;
     private final GitlabAdapter gitlabAdapter;
 
-    public SourceControlService resolve(String provider) {
+    public SourceControlPort resolve(String provider) {
 
         if (provider.equalsIgnoreCase("github")) {
             return githubAdapter;

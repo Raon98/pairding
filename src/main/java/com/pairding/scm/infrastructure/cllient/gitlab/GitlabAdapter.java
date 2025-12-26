@@ -2,14 +2,14 @@ package com.pairding.scm.infrastructure.cllient.gitlab;
 
 import com.pairding.scm.application.dto.ChangedFile;
 import com.pairding.scm.application.dto.RepositoryInfo;
-import com.pairding.scm.application.port.out.SourceControlService;
+import com.pairding.scm.application.port.out.SourceControlPort;
 
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class GitlabAdapter implements SourceControlService {
+public class GitlabAdapter implements SourceControlPort {
 
     @Override
     public List<RepositoryInfo> getRepositories(Long userId) {
