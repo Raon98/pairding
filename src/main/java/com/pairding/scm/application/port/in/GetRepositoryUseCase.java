@@ -3,6 +3,7 @@ package com.pairding.scm.application.port.in;
 import com.pairding.scm.application.dto.RepositoryInfo;
 import com.pairding.scm.application.port.out.SourceControlPort;
 import com.pairding.scm.application.resolver.SourceControlServiceResolver;
+import com.pairding.scm.domain.enums.ScmProvider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class GetRepositoryUseCase {
     private final SourceControlServiceResolver resolver;
 
     public List<RepositoryInfo> getRepositories(String provider, Long userId) {
-        SourceControlPort scm = resolver.resolve(provider);
+        ScmProvider scmProvider = ScmProvider.from(provider);
+        SourceControlPort scm = resolver.resolve(scmProvider);
         return scm.getRepositories(userId);
     }
 }
