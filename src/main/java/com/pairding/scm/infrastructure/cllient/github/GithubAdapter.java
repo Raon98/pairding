@@ -2,9 +2,13 @@ package com.pairding.scm.infrastructure.cllient.github;
 
 import com.pairding.scm.application.dto.ChangedFile;
 import com.pairding.scm.application.dto.RepositoryInfo;
-import com.pairding.scm.application.port.SourceControlService;
+import com.pairding.scm.application.dto.RepositoryInfoResult;
+import com.pairding.scm.application.port.out.SourceControlPort;
+import com.pairding.scm.domain.enums.ScmProvider;
 import com.pairding.scm.infrastructure.cllient.github.dto.GithubCommitResponse;
 import com.pairding.scm.infrastructure.cllient.github.dto.GithubContentResponse;
+import com.pairding.scm.infrastructure.cllient.github.dto.GithubCreateWebhookRequest;
+import com.pairding.scm.infrastructure.cllient.github.dto.GithubCreateWebhookResponse;
 import com.pairding.scm.infrastructure.cllient.github.dto.GithubRefResponse;
 import com.pairding.scm.infrastructure.cllient.github.dto.GithubRepoResponse;
 import com.pairding.users.infrastructure.db.repository.UserConnectionRepository;
@@ -22,17 +26,42 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class GithubAdapter implements SourceControlService {
+public class GithubAdapter implements SourceControlPort {
     private final GithubApiClient githubApiClient;
     private final UserConnectionRepository connectionRepository;
 
     @Override
-    public List<RepositoryInfo> getRepositories(Long userId) {
+    public ScmProvider supports() {
+        return ScmProvider.GITHUB;
+    }
+
+   @Override
+    public CreateWebhookResult createPushWebhook(CreateWebhookCommand command) {
+
+        GithubCreateWebhookRequest request =
+                new GithubCreateWebhookRequest(
+                        command.callbackUrl(),
+                        command.secret()
+                );
+
+        GithubCreateWebhookResponse response =
+                githubApiClient.post(
+                        "/repos/" + command.owner() + "/" + command.repoName() + "/hooks",
+                        command.accessToken(),
+                        request,
+                        GithubCreateWebhookResponse.class
+                );
+
+        return new CreateWebhookResult(String.valueOf(response.id()));
+    }
+
+    @Override
+    public List<RepositoryInfoResult> getRepositories(Long userId) {
         String token = getToken(userId);
         GithubRepoResponse[] data = githubApiClient.get("/user/repos", token, GithubRepoResponse[].class);
 
         return Arrays.stream(data)
-                .map(r -> new RepositoryInfo(r.getId(),r.getOwner().getLogin(), r.getName(), r.getFullName(), r.isPrivate()))
+                .map(r -> new RepositoryInfoResult(r.getId().toString(),r.getOwner().getLogin(), r.getName(), r.getFullName(), r.isPrivate()))
                 .toList();
     }
 
@@ -105,4 +134,6 @@ public class GithubAdapter implements SourceControlService {
                 .orElseThrow(() -> new RuntimeException("GitHub not connected"))
                 .getEncryptedAccessToken();
     }
+
+  
 }

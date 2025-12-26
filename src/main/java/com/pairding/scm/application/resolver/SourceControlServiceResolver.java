@@ -1,26 +1,23 @@
 package com.pairding.scm.application.resolver;
 
-import com.pairding.scm.application.port.SourceControlService;
-import com.pairding.scm.infrastructure.cllient.github.GithubAdapter;
-import com.pairding.scm.infrastructure.cllient.gitlab.GitlabAdapter;
+import com.pairding.scm.application.port.out.SourceControlPort;
+import com.pairding.scm.domain.enums.ScmProvider;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class SourceControlServiceResolver {
-    private final GithubAdapter githubAdapter;
-    private final GitlabAdapter gitlabAdapter;
+    private final List<SourceControlPort> ports;
 
-    public SourceControlService resolve(String provider) {
-
-        if (provider.equalsIgnoreCase("github")) {
-            return githubAdapter;
-        }else if (provider.equalsIgnoreCase("gitlab")) {
-            return gitlabAdapter;
-        }
-
-        throw new IllegalStateException("지원하지 않는 Provider: " + provider);
+    public SourceControlPort resolve(ScmProvider provider) {
+        return ports.stream()
+                .filter(port -> port.supports() == provider)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("지원하지않는 Provider : " + provider));
     }
 }

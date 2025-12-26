@@ -54,3 +54,7 @@ cors:
 
 jwt:
   secret: "VlwEyVlPKl54t484gbR2e7dNA7N6bH7v55jB7v55jB="
+
+scm:
+  webhook:
+    callback-url: https://spicy-glasses-marry.loca.lt/api/webhook/scm
