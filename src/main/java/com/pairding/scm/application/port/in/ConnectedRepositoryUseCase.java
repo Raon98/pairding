@@ -1,7 +1,7 @@
 package com.pairding.scm.application.port.in;
 
 import com.pairding.scm.application.dto.RepositoryInfo;
-import com.pairding.scm.application.port.out.SourceControlService;
+import com.pairding.scm.application.port.out.SourceControlPort;
 import com.pairding.scm.application.resolver.SourceControlServiceResolver;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class ConnectedRepositoryUseCase {
     private final SourceControlServiceResolver resolver;
 
     public List<RepositoryInfo> getRepositories(String provider, Long userId) {
-        SourceControlService scm = resolver.resolve(provider);
+        SourceControlPort scm = resolver.resolve(provider);
         return scm.getRepositories(userId);
     }
 }
