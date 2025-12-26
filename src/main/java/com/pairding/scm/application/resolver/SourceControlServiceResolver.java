@@ -1,6 +1,6 @@
 package com.pairding.scm.application.resolver;
 
-import com.pairding.scm.application.port.SourceControlService;
+import com.pairding.scm.application.port.out.SourceControlService;
 import com.pairding.scm.infrastructure.cllient.github.GithubAdapter;
 import com.pairding.scm.infrastructure.cllient.gitlab.GitlabAdapter;
 

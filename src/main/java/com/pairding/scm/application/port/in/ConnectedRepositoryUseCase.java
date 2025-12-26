@@ -1,7 +1,7 @@
 package com.pairding.scm.application.port.in;
 
 import com.pairding.scm.application.dto.RepositoryInfo;
-import com.pairding.scm.application.port.SourceControlService;
+import com.pairding.scm.application.port.out.SourceControlService;
 import com.pairding.scm.application.resolver.SourceControlServiceResolver;
 
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.pairding.scm.application.port;
+package com.pairding.scm.application.port.out;
 
 import java.util.List;
 
