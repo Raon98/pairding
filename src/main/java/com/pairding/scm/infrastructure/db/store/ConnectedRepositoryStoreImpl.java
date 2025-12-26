@@ -29,4 +29,9 @@ public class ConnectedRepositoryStoreImpl implements ConnectedRepositoryStore {
             userId, provider, providerRepoId
         );
     }
+
+    @Override
+    public Optional<ConnectedRepository> findById(Long id) {
+        return repository.findById(id);
+    }
 }

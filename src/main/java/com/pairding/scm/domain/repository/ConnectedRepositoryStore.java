@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface ConnectedRepositoryStore  {
     Optional<ConnectedRepository> findByUserIdAndProviderAndProviderRepoId(Long userId, ScmProvider provider, String providerRepoId);
     ConnectedRepository save(ConnectedRepository repo);
+    
+    Optional<ConnectedRepository> findById(Long id);
 }
